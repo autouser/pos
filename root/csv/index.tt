@@ -1,0 +1,30 @@
+[% IF errors %]
+  [% FOR error IN errors %]
+    <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <h4>Warning!</h4>
+      [%= error %].
+    </div>
+  [% END %]
+[% ELSIF result %]
+    <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      [%= result %]
+    </div>
+[% END %]
+<div class='hero-unit'>
+  
+  <h2>Import CSV File</h2>
+  
+  <form action='[%= c.uri_for_action("csv/import_file") %]' method='POST' enctype="multipart/form-data">
+    <fieldset>
+      <legend></legend>
+      <input type='file' name='csv' style='padding: 5px;'/>
+    </fieldset>
+    <fieldset>
+      <legend></legend>
+      <input type='submit' name='action' value='Upload' class='btn btn-primary'>      
+    </fieldset>
+  </form>
+
+</div>

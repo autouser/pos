@@ -1,0 +1,68 @@
+REQUIREMENTS
+
+- Configured CPAN,
+- sqlite3 utility,
+- gcc compiler.
+
+If you want to run the project under Apache web server you should fullfill additional requirements:
+
+- Apache 2 server,
+- Apache mod_perl 2.
+
+
+INSTALLATION
+
+Upload this distribution to your server (e.g.: to path '/opt/pos/').
+Then execute next commands:
+
+  cd /opt/pos
+  perl Makefile.PL
+  make
+
+This commands install missing dependencies (including the Catalyst itself ).
+
+
+CONFIGURATION
+
+Execute next commands:
+
+  cd /opt/pos
+  ./script/pos_create_db.sh
+
+This command creates SQLite database pos.db in the root of the project (e.g.: '/opt/pos/pos.db')
+
+
+RUNNING AS STANDALONE SERVER
+
+You can run the application under the embedded Starman development server:
+
+  cd /opt/pos
+  ./script/pos_server.pl -f
+
+
+RUNNING UNDER APACHE MOD_PERL 2
+
+Configure a virtual host:
+
+  PerlSwitches -I/opt/pos/lib
+  PerlSetEnv POS_DSN 'dbi:SQLite:dbname=/opt/pos/pos.db'
+  PerlSetEnv POS_DEBUG 0
+  PerlModule POS
+
+  <VirtualHost *:80>
+  ServerName    your.domain.name
+  DocumentRoot  /opt/pos/root
+
+  <Location />
+          SetHandler          modperl
+          PerlResponseHandler POS
+  </Location>
+
+  </VirtualHost>
+
+If you want the Apache to process all static content, please add:
+
+  DocumentRoot /opt/pos/root
+  <Location /static>
+          SetHandler default-handler
+  </Location>

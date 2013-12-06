@@ -1,0 +1,46 @@
+NOTES
+
+According to the task the customer should have a way to add CSV files and retrieve reports.
+I decided that the application should be a WEB interface based on Perl Catalyst.
+
+Catalyst is a flexible, extendable and quick framework.
+
+
+DATABASE DESIGN
+
+There are three entities in the provided csv:
+
+Customer,
+Item,
+Order.
+
+Customer and Order have an unique id, but for Item I'm using 'name' and 'manufacturer' fields because different manufacturers can have items with the same name.
+
+Price field should be defined in Orders so if item's price changes it won't affect the report.
+
+You can find the resulting schema at './share/schema.sql'.
+
+
+APPLICATION COMPONENTS.
+
+There are three DBIx::Class model classes: Customer, Item and Order. Each of them represents a database table.
+
+The ReportDates class represents a view to collect report dates.
+
+Order model have an Order resultset which represents the required report.
+
+The CSV model is based on the Text::CSV module and incapsulates all CSV processing logic.
+
+
+There are two controller classes: CSV and Report.
+
+The CSV controller is responsible for a CSV processing.
+
+The Report controller is responsible for a Report representation.
+
+I decided also to use the Twitter Bootstrap framework to decorate the project.
+
+
+Please visit http://pos.gyorms.com for the live demo.
+Username: allaround
+Password: theworld

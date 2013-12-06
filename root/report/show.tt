@@ -1,0 +1,55 @@
+<div class='well well-small'>
+  <b>Report for [%= date %]</b>
+  <div class='pull-right'>
+    <a href="[%= c.uri_for("text/${date}") %]" title='Download text version' class='btn btn-mini'>
+      <i class='icon-download'></i>  
+    </a>
+    
+  </div>
+</div>
+<table class='table table-condensed table-hover table-bordered'>
+  <thead>
+    <tr>
+      <th>Customer</th>
+      <th>Order ID</th>
+      <th>Item</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+  [% 
+    prev;
+    count = 0;
+    sum = 0;
+  %]
+  [% FOR record IN report %]
+    [% style = IF prev.customer_id != record.customer_id ; 'border-top: 1px solid black;' ; ELSE ; '' ; END %]
+    <tr>
+      <td style = '[%= style %]'>
+        [% UNLESS prev.customer_id == record.customer_id %]
+          [%= record.customer.first_name %] [%= record.customer.last_name %]
+        [% END %]
+      </td>
+      <td style = '[%= style %]'>
+        [% UNLESS prev.id == record.id %]
+          [%= record.id %]
+        [% END %]
+      </td>
+      <td style = '[%= style %]'>
+        [%= record.item.name %] ([%= record.item.manufacturer %])
+      </td>
+      <td style = '[%= style %]'>
+        $[%= record.price %]
+      </td>
+    </tr>
+  [% prev = record ; count = count + 1; sum = sum + record.price %]
+  [% END %]
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan='2' style='text-align: left; border-top: 1px solid black; background-color: #eee;'>TOTAL</th>
+      <th style='border-top: 1px solid black; background-color: #eee;'>[%= count %]</th>
+      <th style='border-top: 1px solid black; background-color: #eee;'>$[%= sum %]</th>
+    </tr>
+  </tfoot>
+</table>
